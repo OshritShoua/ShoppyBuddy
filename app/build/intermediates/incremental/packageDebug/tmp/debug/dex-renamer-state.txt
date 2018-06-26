@@ -1,0 +1,4 @@
+#Tue Jun 26 11:17:18 IDT 2018
+base.0=/Users/oshrits/Downloads/ShoppyBuddy/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

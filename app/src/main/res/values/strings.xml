@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ShoppyBuddy</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="start_shopping">Start shopping!</string>
+    <string name="my_baskets">My baskets</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_cart_review">CartReviewActivity</string>
+</resources>
