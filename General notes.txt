@@ -1,0 +1,62 @@
+Additional git sources:
+https://github.com/yushulx/android-tesseract-ocr
+
+
+useful links:
+android studio app building guide:
+https://developer.android.com/training/basics/firstapp/
+
+IMPORTANT NOTES:
+- Several permissions - like the android.permission.INTERNET to allow it to connect to the internet - are required.
+- TODO// Despite declaring permissions in manifest file, I needed to manually give the app permissions through the phone's settings! I don't know why this is,
+since the only issue I found online with not being given permissions when installing apps throug android studio was when the os was Marshmallow version (and my htc has Nougat).
+For now I just gave the permissions manually, and this is not a burning matter, but to fix it we can either check why this happens (might have something to do with the sdk
+version) and remedy it, or add code that explicitely requests permissions.
+- In the new project from scratch, in the res/values/styles.xml file, this was the original line:
+<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+and I changed it because the layout gave me a render error
+- Because my HTC 10 is "api 24 or higher" as quoted by stackoverflow, I had an exception when attempting to startActivityForResult when clicking to take a photo.
+The error was "....fileUriExposedException". The quick yet unrecommended fix I applied was using the StrictMode class, but what should be done is using the FileProvider class,
+which I skipped for now.
+- In an attempt to improve the layout, I edited the styles.xml to try and get rid of the title bar at the top
+- For simplicity (and I hope it actually simplifies) I chose a simple activity for the activity that displays the contents of a given cart instead of a fancy activity 
+with a fancy layout like Master/Detail (which also uses RecyclerView that I didn't have the patience to learn to use). If all goes well, we should consider changing to the
+Master/Detail activity (or at least just it's layout, if possible) because it's really nice and we can comfortably display details about each item bought...even a photo of it.
+
+
+===================MISCELLANEOUS THINGS TO TRY=========================
+- try the Scope app - done, and it didn't work
+- read the post on how to use tesseract - done
+- this is a more serious tesseract app - https://github.com/rmtheis/android-ocr and using it might be too much - but we can take ideas from it for instance on how
+to handle ocr failures ect..
+========================================================================
+
+==================CONTINUING STEPS===================================
+- continute developing the app. assume you have a string with a price and the current, and attempt to use the converting api - done
+- work on NewCartActivity:
+    This can primarily be called from the MainActivity or from the MyOrdersActivity. Either way, it should create a new cart for the user with no items in it.
+    This new creation needs to create a new object of type Cart (which should have a collection of objects of type Item) and the cart should have a unique identifier
+    for saving later on the database.
+    The NewCartActivity should begin by displaying nothing (except for maybe a msg saying "Start adding items!"). A " + " or " CameraIcon " button should
+    start the photo activity.
+=====================================================================
+
+
+
+==========IMPROVING THE RECOGNITION==============
+-----------------I AM STUPIDDDDDD....TRY THE CORRECT DIRECTORY................---------------------
+- read about how to improve recognition quality - larger size, whitelist/blacklist, how to use Tesseract to recognize only digits - try this now as this is relatively short
+- try and search a training file for numbers only - including decimals - done - see below link!
+- read if including more language trained files can improve decimal recognition
+- check what Tesseract I am using! I might be using an old one, but then again it's possible that it's cause im using Tess 2 which is 'a fork' + read this:
+https://groups.google.com/forum/#!msg/tesseract-ocr/-oeCTcojYfw/tRWUpvc_BQAJ;context-place=forum/tesseract-ocr
+- understand where the training file is referenced in the code
+- check if the training file is even getting used! This is because my htc has no sd card. see if that code that checks for creation of the directories works.
+- try removing the training files all together and see what happens
+=======================================================
+
+===============CONVERTING THE PRICES=======================
+Currency api: https://fixer.io/login?u=https%3A%2F%2Ffixer.io%2Fquickstart
+The GET request I used:
+http://data.fixer.io/api/latest?access_key=d62b91d10279be105b7e138ecf91df26
+No body needed
