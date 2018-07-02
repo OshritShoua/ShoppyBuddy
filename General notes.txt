@@ -22,6 +22,7 @@ which I skipped for now.
 - For simplicity (and I hope it actually simplifies) I chose a simple activity for the activity that displays the contents of a given cart instead of a fancy activity 
 with a fancy layout like Master/Detail (which also uses RecyclerView that I didn't have the patience to learn to use). If all goes well, we should consider changing to the
 Master/Detail activity (or at least just it's layout, if possible) because it's really nice and we can comfortably display details about each item bought...even a photo of it.
+- In order to start using dialogs, I imported the "Support Library" version of DialogFragment and the framework version, in order to follow the examples smoothly. However, afterwards I did not find what version of AlertDialog to import in the documentation, so I chose one of them. This is a potential issue.
 
 
 ===================MISCELLANEOUS THINGS TO TRY=========================
