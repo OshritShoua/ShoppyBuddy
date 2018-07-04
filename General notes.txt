@@ -25,6 +25,9 @@ Master/Detail activity (or at least just it's layout, if possible) because it's 
 - In order to start using dialogs, I imported the "Support Library" version of DialogFragment and the framework version, in order to follow the examples smoothly. However, afterwards I did not find what version of AlertDialog to import in the documentation, so I chose one of them. This is a potential issue.
 - To use the dialogs, I followed the android guide that highly recommended to use the DialogFragment class because it helps with lifecycle events of the dialog. But the .show() method of the Dialog kept throwing a "Can not perform this action after onSaveInstanceState". This is some sort of known issue that has something to do with the API level, and I don't know if there is a better way to handle, but for now this was resolved by overriding the .show() method inside the fragment as described here:
 https://stackoverflow.com/questions/15729138/on-showing-dialog-i-get-can-not-perform-this-action-after-onsaveinstancestate
+- For styling dialogs - 
+https://guides.codepath.com/android/Material-Design-Primer#dialog-styles
+https://github.com/afollestad/material-dialogs
 
 
 ===================MISCELLANEOUS THINGS TO TRY=========================
