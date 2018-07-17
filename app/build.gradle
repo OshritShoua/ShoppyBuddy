@@ -30,4 +30,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     api 'com.google.guava:guava:25.1-android'
+    implementation 'com.google.android.gms:play-services-vision:11.4.0'
 }

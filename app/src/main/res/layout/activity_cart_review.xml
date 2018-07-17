@@ -12,24 +12,23 @@
         android:layout_height="0dp"
         android:layout_marginBottom="24dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageButton"
+        app:layout_constraintBottom_toTopOf="@+id/cameraButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/cartNameText" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/cameraButton"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:layout_marginBottom="16dp"
-        android:onClick="OnCameraButtonClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/camera_icon" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/cartNameText"
         android:layout_width="0dp"
         android:layout_height="31dp"
         android:layout_marginEnd="24dp"
@@ -37,11 +36,21 @@
         android:layout_marginRight="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="The Cart name will be"
+        android:text="The Cart name will be here"
         android:textColor="@android:color/darker_gray"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scanResults"
+        android:layout_width="140dp"
+        android:layout_height="44dp"
+        android:text="scanResults"
+        tools:layout_editor_absoluteX="122dp"
+        tools:layout_editor_absoluteY="406dp"
+        tools:text="Scan results will be shown here"
+        tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>

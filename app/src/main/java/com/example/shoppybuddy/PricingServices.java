@@ -1,23 +1,18 @@
 package com.example.shoppybuddy;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.common.primitives.Chars;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -25,11 +20,7 @@ import com.googlecode.tesseract.android.TessBaseAPI;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,14 +28,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
-
 public class PricingServices
 {
-    private static String _appDataPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/ShoppyBuddy/"; //// getExternalStorageDirectory()
-    private static String _imageFilePath = _appDataPath + "captured_image.jpg";
+    //private static String _appDataPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/ShoppyBuddy/"; //// getExternalStorageDirectory()
+    //private static String _imageFilePath = _appDataPath + "captured_image.jpg";
     private static String TAG;
-    private String _language = "eng";
+    //private String _language = "eng";
     public HashMap<Character, String> _currencySymbolsToCodes;//todo - this might change to a bimap
     private double _originalPrice;
     private double _convertedPrice;
@@ -60,8 +49,8 @@ public class PricingServices
         init(context);
     }
 
-    public static String GetImageFilePath(){return _imageFilePath;}
-    public boolean IsPriceParsingComplete(){return _parsingComplete;}
+//    public static String GetImageFilePath(){return _imageFilePath;}
+//    public boolean IsPriceParsingComplete(){return _parsingComplete;}
 
     private void init(Context context)
     {
@@ -74,72 +63,72 @@ public class PricingServices
         _currencySymbolsToCodes.put('£', "GBP");
         _currencySymbolsToCodes.put('$', "USD");
 
-        deleteExistingFilesAndDirs();
-        createAppDirsOnPublicStorage();
-        copyTesseractTrainingFileToPublicStorage();
+//        deleteExistingFilesAndDirs();
+//        createAppDirsOnPublicStorage();
+//        copyTesseractTrainingFileToPublicStorage();
     }
 
-    private void deleteExistingFilesAndDirs()
-    {
-        String[] paths = {_appDataPath + "tessdata/" + _language + ".traineddata", _appDataPath + "tessdata/", _appDataPath, _imageFilePath};
-        for (String path : paths) {
-            boolean b;
-            File node = new File(path);
-            if (node.exists()) {
-                b = node.delete();
-                Log.v(TAG, "deleted " + path);
-            }
-        }
-    }
+//    private void deleteExistingFilesAndDirs()
+//    {
+//        String[] paths = {_appDataPath + "tessdata/" + _language + ".traineddata", _appDataPath + "tessdata/", _appDataPath, _imageFilePath};
+//        for (String path : paths) {
+//            boolean b;
+//            File node = new File(path);
+//            if (node.exists()) {
+//                b = node.delete();
+//                Log.v(TAG, "deleted " + path);
+//            }
+//        }
+//    }
 
     //todo - This can be more readable if using the Fils.copy() which requires a higher api level. Read about that error and see what it means.
-    private void copyTesseractTrainingFileToPublicStorage()
-    {
-        if (!(new File(_appDataPath + "tessdata/" + _language + ".traineddata")).exists()) {
-            try {
-                AssetManager assetManager = _context.getAssets();
-                InputStream in = assetManager.open("tessdata/" + _language + ".traineddata");
-                OutputStream out = new FileOutputStream(new File(_appDataPath + "tessdata/" + _language + ".traineddata"));
+//    private void copyTesseractTrainingFileToPublicStorage()
+//    {
+//        if (!(new File(_appDataPath + "tessdata/" + _language + ".traineddata")).exists()) {
+//            try {
+//                AssetManager assetManager = _context.getAssets();
+//                InputStream in = assetManager.open("tessdata/" + _language + ".traineddata");
+//                OutputStream out = new FileOutputStream(new File(_appDataPath + "tessdata/" + _language + ".traineddata"));
+//
+//                // Transfer bytes from in to out
+//                byte[] buf = new byte[1024];
+//                int len;
+//                while ((len = in.read(buf)) > 0) {
+//                    out.write(buf, 0, len);
+//                }
+//                in.close();
+//                out.close();
+//                Log.v(TAG, "Copied " + _language + " traineddata");
+//                File f = new File(_appDataPath + "tessdata/" + _language + ".traineddata");
+//                boolean b = f.exists();
+//                long size = f.length();
+//            } catch (IOException e) {
+//                Log.e(TAG, "Was unable to copy " + _language + " traineddata " + e.toString());
+//            }
+//        }
+//    }
 
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-                in.close();
-                out.close();
-                Log.v(TAG, "Copied " + _language + " traineddata");
-                File f = new File(_appDataPath + "tessdata/" + _language + ".traineddata");
-                boolean b = f.exists();
-                long size = f.length();
-            } catch (IOException e) {
-                Log.e(TAG, "Was unable to copy " + _language + " traineddata " + e.toString());
-            }
-        }
-    }
-
-    private void createAppDirsOnPublicStorage()
-    {
-        String[] paths = new String[]{_appDataPath, _appDataPath + "tessdata/"};
-        String state = Environment.getExternalStorageState();
-        for (String path : paths) {
-            File dir = new File(path);
-            if (!dir.exists()) {
-                if (!Environment.MEDIA_MOUNTED.equals(state)) {
-                    Log.v(TAG, "ERROR: Creation of directories failed because external storage is not available for read/write");
-                    return;
-                }
-
-                if (!dir.mkdirs()) {
-                    Log.v(TAG, "ERROR: Creation of directory " + path + " failed");
-                    return;
-                } else {
-                    Log.v(TAG, "Created directory " + path + " successfully");
-                }
-            }
-        }
-    }
+//    private void createAppDirsOnPublicStorage()
+//    {
+//        String[] paths = new String[]{_appDataPath, _appDataPath + "tessdata/"};
+//        String state = Environment.getExternalStorageState();
+//        for (String path : paths) {
+//            File dir = new File(path);
+//            if (!dir.exists()) {
+//                if (!Environment.MEDIA_MOUNTED.equals(state)) {
+//                    Log.v(TAG, "ERROR: Creation of directories failed because external storage is not available for read/write");
+//                    return;
+//                }
+//
+//                if (!dir.mkdirs()) {
+//                    Log.v(TAG, "ERROR: Creation of directory " + path + " failed");
+//                    return;
+//                } else {
+//                    Log.v(TAG, "Created directory " + path + " successfully");
+//                }
+//            }
+//        }
+//    }
 
 //    public void onConversionApiResponseReceived(String response)
 //    {
@@ -340,8 +329,9 @@ public class PricingServices
     public void parsePriceFromPhoto()
     {
         _parsingComplete = false;
-        Bitmap bitmap = getAdjustedBitmapFromPhoto();
-        String rawRecognizedText = getOCRedRawText(bitmap);
+        //Bitmap bitmap = getAdjustedBitmapFromPhoto();
+        //String rawRecognizedText = getOCRedRawText();
+        String rawRecognizedText = ""; //todo: get the recognized text from CartReviewActivity
         parsePriceFromText(rawRecognizedText);
     }
 
@@ -394,72 +384,72 @@ public class PricingServices
         return builder.toString();
     }
 
-    private String getOCRedRawText(Bitmap bitmap)
-    {
-        Log.v(TAG, "Before baseApi");
-        //todo - add logic that improves the ocr in this func
-        TessBaseAPI baseApi = new TessBaseAPI();
-        baseApi.setDebug(true);
-        baseApi.init(_appDataPath, _language);
-        baseApi.setImage(bitmap);
-        String rawRecognizedText = baseApi.getUTF8Text();
-        baseApi.end();
-        return rawRecognizedText;
-    }
+//    private String getOCRedRawText(Bitmap bitmap)
+//    {
+//        Log.v(TAG, "Before baseApi");
+//        //todo - add logic that improves the ocr in this func
+//        TessBaseAPI baseApi = new TessBaseAPI();
+//        baseApi.setDebug(true);
+//        baseApi.init(_appDataPath, _language);
+//        baseApi.setImage(bitmap);
+//        String rawRecognizedText = baseApi.getUTF8Text();
+//        baseApi.end();
+//        return rawRecognizedText;
+//    }
 
-    private Bitmap getAdjustedBitmapFromPhoto()
-    {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 4;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(_imageFilePath, options);
-
-        try {
-            ExifInterface exif = new ExifInterface(_imageFilePath);
-            int orientationMode = exif.getAttributeInt(
-                    ExifInterface.TAG_ORIENTATION,
-                    ExifInterface.ORIENTATION_NORMAL);
-
-            Log.v(TAG, "Orient: " + orientationMode);
-
-            int rotate = 0;
-
-            switch (orientationMode) {
-                case ExifInterface.ORIENTATION_ROTATE_90:
-                    rotate = 90;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_180:
-                    rotate = 180;
-                    break;
-                case ExifInterface.ORIENTATION_ROTATE_270:
-                    rotate = 270;
-                    break;
-            }
-
-            Log.v(TAG, "Rotation: " + rotate);
-
-            if (rotate != 0) {
-
-                // Getting width & height of the given image.
-                int w = bitmap.getWidth();
-                int h = bitmap.getHeight();
-
-                // Setting pre rotate
-                Matrix mtx = new Matrix();
-                mtx.preRotate(rotate);
-
-                // Rotating Bitmap
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false);
-            }
-
-            // Convert to ARGB_8888, required by tess
-            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        } catch (IOException e) {
-            Log.e(TAG, "Couldn't correct orientation: " + e.toString());
-        }
-
-        return bitmap;
-    }
+//    private Bitmap getAdjustedBitmapFromPhoto()
+//    {
+//        BitmapFactory.Options options = new BitmapFactory.Options();
+//        options.inSampleSize = 4;
+//
+//        Bitmap bitmap = BitmapFactory.decodeFile(_imageFilePath, options);
+//
+//        try {
+//            ExifInterface exif = new ExifInterface(_imageFilePath);
+//            int orientationMode = exif.getAttributeInt(
+//                    ExifInterface.TAG_ORIENTATION,
+//                    ExifInterface.ORIENTATION_NORMAL);
+//
+//            Log.v(TAG, "Orient: " + orientationMode);
+//
+//            int rotate = 0;
+//
+//            switch (orientationMode) {
+//                case ExifInterface.ORIENTATION_ROTATE_90:
+//                    rotate = 90;
+//                    break;
+//                case ExifInterface.ORIENTATION_ROTATE_180:
+//                    rotate = 180;
+//                    break;
+//                case ExifInterface.ORIENTATION_ROTATE_270:
+//                    rotate = 270;
+//                    break;
+//            }
+//
+//            Log.v(TAG, "Rotation: " + rotate);
+//
+//            if (rotate != 0) {
+//
+//                // Getting width & height of the given image.
+//                int w = bitmap.getWidth();
+//                int h = bitmap.getHeight();
+//
+//                // Setting pre rotate
+//                Matrix mtx = new Matrix();
+//                mtx.preRotate(rotate);
+//
+//                // Rotating Bitmap
+//                bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false);
+//            }
+//
+//            // Convert to ARGB_8888, required by tess
+//            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+//        } catch (IOException e) {
+//            Log.e(TAG, "Couldn't correct orientation: " + e.toString());
+//        }
+//
+//        return bitmap;
+//    }
 
     public double GetConvertedPrice()
     {
